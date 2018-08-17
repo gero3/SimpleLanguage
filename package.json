@@ -1,0 +1,20 @@
+{
+  "name": "simplelanguage",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "big-integer": "^1.6.34"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "gero3",
+  "license": "MIT"
+}
