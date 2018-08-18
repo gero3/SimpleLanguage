@@ -13,7 +13,8 @@
     "mocha": "^5.2.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "examples": "node examples/index.js"
   },
   "author": "gero3",
   "license": "MIT"
