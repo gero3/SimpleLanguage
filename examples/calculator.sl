@@ -1,0 +1,18 @@
+input number left;
+input number right;
+number a;
+number b;
+number addition;
+number multiplication;
+number division;
+number subtraction;
+a = left;
+b = right;
+addition = a + b;
+multiplication = a * b;
+division = a / b;
+subtraction = a - b;
+output addition addition;
+output subtraction subtraction;
+output division division;
+output multiplication multiplication;
