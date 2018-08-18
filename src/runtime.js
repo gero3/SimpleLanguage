@@ -8,17 +8,17 @@ function executeOperations(operations, inputs) {
 	var variables = {};
 	operations.forEach(function (operation) {
 		if (operation.type === "input") {
-			variables[operation.argument] = bigInt(inputs[operation.argument]);
+			variables[operation.name] = bigInt(inputs[operation.name]);
 		} else if (operation.type === "output") {
 			outputs[operation.name] = variables[operation.argument].toString();
 		} else if (operation.type === "variable") {
-			variables[operation.argument] = bigInt(0);
-		} else if (operation.type === "variableAssignment") {
+			variables[operation.name] = bigInt(0);
+        } else if (operation.type === "variableAssignment") {
 			variables[operation.assignee] = variables[operation.assigner];
 		} else if (operation.type === "literalAssignment") {
 			variables[operation.assignee] = bigInt(operation.literal);
 		} else if (operation.type === "binaryExpression") {
-			if (operation.operator === "+") {
+            if (operation.operator === "+") {
 				variables[operation.assignee] = variables[operation.left].add(variables[operation.right]);
 			} else if (operation.operator === "-") {
 				variables[operation.assignee] = variables[operation.left].minus(variables[operation.right]);
