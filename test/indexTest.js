@@ -15,5 +15,26 @@ describe('index', function () {
 			assert.deepStrictEqual(index.normalize(index.normalize(" Output RETURNVaLUE A;                 \nOutput RETURNVaLUeTWO A; ")), "output returnvalue a;\noutput returnvaluetwo a;\n");
 		});
 
-	});
+    });
+
+    describe('#parse()', function () {
+        this.timeout(1000);
+        it('parse function should be available.', function () {
+            assert.equal(typeof index.parse === "function", true);
+        });
+    });
+
+    describe('#generate()', function () {
+        this.timeout(1000);
+        it('generate function should be available.', function () {
+            assert.equal(typeof index.generate === "function", true);
+        });
+    });
+
+    describe('#execute()', function () {
+        this.timeout(1000);
+        it('execute function should be available.', function () {
+            assert.equal(typeof index.execute === "function", true);
+        });
+    });
 });
