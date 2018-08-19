@@ -13,7 +13,11 @@ describe('index', function () {
 		it('normalize once is the same as normalizing multiple times', function () {
 			assert.deepStrictEqual(index.normalize(index.normalize("INPUT Number A;\n          INPUT Number B;")), "input number a;\ninput number b;\n");
             assert.deepStrictEqual(index.normalize(index.normalize("INPUT Number A; Output RETURNVaLUE A;                 \nOutput RETURNVaLUeTWO A; ")), "input number a;\noutput returnvalue a;\noutput returnvaluetwo a;\n");
-		});
+        });
+        it('normalize throws when invalid scripts', function () {
+            assert.throws(function () { index.normalize("number A;number a;"); });
+            assert.throws(function () { index.normalize("blabla"); });
+        });
 
     });
 
