@@ -6,7 +6,29 @@ describe('validator', function () {
 		this.timeout(1000);
 		it('validOperations function should be available.', function () {
 			assert.equal(typeof validator.validOperations === "function", true);
-		});
+        });
+        it('validOperations should validate operations.', function () {
+            assert.equal(validator.validOperations([]), true);
+            assert.equal(validator.validOperations([{ type: "input", datatype: "number", name: "a" }, { type: "variable", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "b" }]), false);
+            assert.equal(validator.validOperations([{ type: "variable", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "b" }]), false);
+            assert.equal(validator.validOperations([{ type: "output", name: "returnvalue", argument: "a" }, { type: "variable", datatype: "number", argument: "a" }, { type: "output", name: "returnvaluetwo", argument: "b" }]), false);
+            assert.equal(validator.validOperations([{ type: "output", name: "returnvalue", argument: "a" }, { type: "variable", datatype: "number", argument: "a" }]), false);
+            assert.equal(validator.validOperations([{ type: "variable", datatype: "number", name: "a" }, { type: "variable", datatype: "number", name: "a" }]), false);
+            assert.equal(validator.validOperations([{ type: "input", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "a" }]), false);
+            assert.equal(validator.validOperations([{ type: "input", datatype: "number", name: "a" }, { type: "variable", datatype: "number", name: "a" }]), false);
+            assert.equal(validator.validOperations(parser.parse("output a a;")), false);
+            assert.equal(validator.validOperations(parser.parse("a = 6;")), false);
+            assert.equal(validator.validOperations(parser.parse("input number b;a = b;")), false);
+            assert.equal(validator.validOperations(parser.parse("input number a;a = b;")), false);
+            assert.equal(validator.validOperations(parser.parse("a = b;")), false);
+            assert.equal(validator.validOperations(parser.parse("input number b;input number c;a = b + c;")), false);
+            assert.equal(validator.validOperations(parser.parse("input number a;input number c;a = b - c;")), false);
+            assert.equal(validator.validOperations(parser.parse("input number a;input number b;a = b * c;")), false);
+            assert.equal(validator.validOperations(parser.parse("input number a;a = b / c;")), false);
+            assert.equal(validator.validOperations(parser.parse("input number b;a = b - c;")), false);
+            assert.equal(validator.validOperations(parser.parse("input number c;a = b + c;")), false);
+        });
+
 	});
 
 	describe('#inputsFirstCheck()', function () {

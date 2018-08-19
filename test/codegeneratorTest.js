@@ -32,7 +32,7 @@ describe('codegenerator', function () {
 			assert.deepStrictEqual(codegenerator.generate([{ type: "literalAssignment", assignee: "a", literal: "40" }]), "a = 40;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: "literalAssignment", assignee: "a", literal: "19" }, { type: "literalAssignment", assignee: "b", literal: "0" }]), "a = 19;\nb = 0;\n");
 		});
-		it('binary expressions should be parsed', function () {
+        it('binary expressions should be generated', function () {
 			assert.deepStrictEqual(codegenerator.generate([{ type: "binaryExpression", assignee: "a", left: "a", operator: "+", right: "a" }]), "a = a + a;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: "binaryExpression", assignee: "a", left: "b", operator: "-", right: "c" }]), "a = b - c;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: "binaryExpression", assignee: "a", left: "d", operator: "*", right: "e" }]), "a = d * e;\n");

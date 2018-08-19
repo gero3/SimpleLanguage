@@ -12,7 +12,7 @@ describe('runtime', function () {
 		});
 		it('ouput without inputs', function () {
 			assert.deepStrictEqual(runtime.execute("number A;number B;a = 6;b = 7;number addition;addition = a + b; output thirteen addition;"), {thirteen:"13"});
-            assert.deepStrictEqual(runtime.execute("number A;number B;a = 6;b = 7;number addition;addition = a + b;number subtraction;subtraction = b - a;number multiplication;multiplication = a * b; output addition addition;output subtraction subtraction;output multiplication multiplication;"), { addition: "13", subtraction: "1", multiplication: "42" });
+            assert.deepStrictEqual(runtime.execute("number A;number B;a = 6;b = 12;number addition;addition = a + b;number subtraction;subtraction = b - a;number multiplication;multiplication = a * b;number division; division = b / a; output addition addition;output subtraction subtraction;output multiplication multiplication;output division division;"), { addition: "18", subtraction: "6", multiplication: "72",division: "2" });
             assert.deepStrictEqual(runtime.execute("input number number;number numbertoaddto;numbertoaddto = number;number plusone;number one;one = 1;plusone = numbertoaddto + one;output plusone plusone;", { number: 13 }), { plusone: "14" });
 		});
 

@@ -84,6 +84,6 @@ exports.validOperations = function (operations){
 	check = check && inputsFirstCheck(operations);
 	check = check && outputsLastCheck(operations);
     check = check && inputAndVariableNameUniqueCheck(operations);
-    check = check && allUsedVariablesDeclaredCheck;
+    check = check && allUsedVariablesDeclaredCheck(operations);
 	return check;
 };
