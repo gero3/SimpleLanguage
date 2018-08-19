@@ -10,10 +10,13 @@
     "big-integer": "^1.6.34"
   },
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "coveralls": "^3.0.2",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "nyc --reporter=html --reporter=text mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "examples": "node examples/index.js"
   },
   "author": "gero3",
