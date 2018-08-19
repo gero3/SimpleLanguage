@@ -37,4 +37,25 @@ describe('index', function () {
             assert.equal(typeof index.execute === "function", true);
         });
     });
+
+    describe('#validate()', function () {
+        this.timeout(1000);
+        it('validate function should be available.', function () {
+            assert.equal(typeof index.validate === "function", true);
+        });
+    });
+
+    describe('#validateText()', function () {
+        this.timeout(1000);
+        it('validateText function should be available.', function () {
+            assert.equal(typeof index.validateText === "function", true);
+        });
+    });
+
+    describe('#validateOperations()', function () {
+        this.timeout(1000);
+        it('validateOperations function should be available.', function () {
+            assert.equal(typeof index.validateOperations === "function", true);
+        });
+    });
 });
