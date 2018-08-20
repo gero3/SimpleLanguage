@@ -39,5 +39,9 @@ describe('codegenerator', function () {
 			assert.deepStrictEqual(codegenerator.generate([{ type: "binaryExpression", assignee: "a", left: "f", operator: "/", right: "g" }]), "a = f / g;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: "binaryExpression", assignee: "a", left: "a", operator: "/", right: "a" }, { type: "binaryExpression", assignee: "a", left: "a", operator: "*", right: "a" }]), "a = a / a;\na = a * a;\n");
 		});
+		
+        it('invalid expressions should throw exception', function () {
+			assert.throws(function () {codegenerator.generate([{ type: "blabla", assignee: "a", left: "a", operator: "+", right: "a" }]);});
+		});
 	});
 });

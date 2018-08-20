@@ -1,6 +1,7 @@
 var assert = require('assert');
 var runtime = require('../src/runtime');
 describe('runtime', function () {
+	
     describe('#execute()', function () {
         this.timeout(1000);
         it('execute function should be available.', function () {
@@ -21,4 +22,17 @@ describe('runtime', function () {
         });
 
     });
+
+    describe('#executeOperations()', function () {
+        this.timeout(1000);
+        it('executeOperations function should be available.', function () {
+            assert.equal(typeof runtime.executeOperations === "function", true);
+        });
+        it('ouput errors when invalid script', function () {
+            assert.throws(function () { runtime.executeOperations([{ type: "blabla", assignee: "a", left: "a", operator: "+", right: "a" }]); });
+            assert.throws(function () { runtime.executeOperations([{ type: "binaryExpression", assignee: "a", left: "a", operator: "\\", right: "a" }]); });
+        });
+
+    });
+
 });

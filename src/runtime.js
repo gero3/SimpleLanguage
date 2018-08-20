@@ -13,12 +13,12 @@ function executeOperations(operations, inputs) {
 			outputs[operation.name] = variables[operation.argument].toString();
 		} else if (operation.type === "variable") {
 			variables[operation.name] = bigInt(0);
-        } else if (operation.type === "variableAssignment") {
+		} else if (operation.type === "variableAssignment") {
 			variables[operation.assignee] = variables[operation.assigner];
 		} else if (operation.type === "literalAssignment") {
 			variables[operation.assignee] = bigInt(operation.literal);
 		} else if (operation.type === "binaryExpression") {
-            if (operation.operator === "+") {
+			if (operation.operator === "+") {
 				variables[operation.assignee] = variables[operation.left].add(variables[operation.right]);
 			} else if (operation.operator === "-") {
 				variables[operation.assignee] = variables[operation.left].minus(variables[operation.right]);
@@ -26,16 +26,22 @@ function executeOperations(operations, inputs) {
 				variables[operation.assignee] = variables[operation.left].multiply(variables[operation.right]);
 			} else if (operation.operator === "/") {
 				variables[operation.assignee] = variables[operation.left].divide(variables[operation.right]);
-			}  
+			} else {
+				throw new Error("binaryExpression cannot not be executed for operator " + operation.operator + ".");
+			}
+		} else {
+			throw new Error("operation cannot not be executed for operation type " + operation.type + ".");
 		}
 	});
 	return outputs;
 }
 
+exports.executeOperations = executeOperations;
+
 exports.execute = function (script, inputs) {
 	var operations = parser.parse(script);
 	var ouputs;
-	if (validator.validOperations(operations)){
+	if (validator.validOperations(operations)) {
 		ouputs = executeOperations(operations, inputs);
 	} else {
 		throw new Error("script is not correct.");

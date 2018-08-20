@@ -15,6 +15,8 @@ exports.generate = function (ast) {
 			code = code + operation.assignee + " = " + operation.literal + ";\n";
 		} else if (operation.type === "binaryExpression") {
 			code = code + operation.assignee + " = " + operation.left + " " + operation.operator + " " + operation.right + ";\n";
+		} else {
+			throw new Error("Code cannot not be generated for operation type " + operation.type + ".");
 		}
 	});
 	return code;
