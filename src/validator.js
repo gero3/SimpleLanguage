@@ -77,6 +77,19 @@ var allUsedVariablesDeclaredCheck = function (operations) {
 };
 exports.allUsedVariablesDeclaredCheck = allUsedVariablesDeclaredCheck;
 
+var allDatatypesExistCheck = function (operations) {
+    var check = true;
+    operations.forEach(function (operation) {
+        if (operation.type === "input" || operation.type === "variable") {
+            if (operation.datatype !== "number") {
+                check = false;
+            }; 
+        };
+    });
+    return check;
+};
+exports.allDatatypesExistCheck = allDatatypesExistCheck;
+
 
 
 exports.validOperations = function (operations){
@@ -85,5 +98,6 @@ exports.validOperations = function (operations){
 	check = check && outputsLastCheck(operations);
     check = check && inputAndVariableNameUniqueCheck(operations);
     check = check && allUsedVariablesDeclaredCheck(operations);
+    check = check && allDatatypesExistCheck(operations);
 	return check;
 };

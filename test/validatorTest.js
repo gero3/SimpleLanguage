@@ -124,5 +124,20 @@ describe('validator', function () {
         });
     });
 
+
+    describe('#allDatatypesExistCheck()', function () {
+        this.timeout(1000);
+        it('allDatatypesExistCheck function should be available.', function () {
+            assert.equal(typeof validator.allDatatypesExistCheck === "function", true);
+        });
+        it('allDatatypesExistCheck should check if all datatypes exists.', function () {
+            assert.equal(validator.allDatatypesExistCheck([]), true);
+            assert.equal(validator.allDatatypesExistCheck([{ type: "input", datatype: "number", name: "a" }]), true);
+            assert.equal(validator.allDatatypesExistCheck([{ type: "variable", datatype: "number", name: "a" }]), true);
+            assert.equal(validator.allDatatypesExistCheck([{ type: "input", datatype: "blabla", name: "a" }]), false);
+            assert.equal(validator.allDatatypesExistCheck([{ type: "variable", datatype: "blabla", name: "a" }]), false);
+        });
+    });
+
 	
 });
