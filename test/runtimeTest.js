@@ -30,7 +30,9 @@ describe('runtime', function () {
         });
         it('ouput errors when invalid script', function () {
             assert.throws(function () { runtime.executeOperations([{ type: "blabla", assignee: "a", left: "a", operator: "+", right: "a" }]); });
-            assert.throws(function () { runtime.executeOperations([{ type: "binaryExpression", assignee: "a", left: "a", operator: "\\", right: "a" }]); });
+            assert.throws(function () { runtime.executeOperations([{ type: "binaryExpression", assignee: "a", left: "a", operator: "blabla", right: "a" }]); });
+            assert.throws(function () { runtime.executeOperations([{ type: "input", datatype: "blabla", name: "a"}]); });
+            assert.throws(function () { runtime.executeOperations([{ type: "variable", datatype: "blabla", name: "a"}]); });
         });
 
     });

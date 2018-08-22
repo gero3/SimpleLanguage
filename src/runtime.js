@@ -8,24 +8,32 @@ function executeOperations(operations, inputs) {
 	var variables = {};
 	operations.forEach(function (operation) {
 		if (operation.type === "input") {
-			variables[operation.name] = bigInt(inputs[operation.name]);
+			if (operation.datatype === "number") {
+				variables[operation.name] = { datatype: "number", value: bigInt(inputs[operation.name]) };
+			} else {
+				throw new Error("input datatype cannot not be executed: " + operation.datatype + ".");
+			}
 		} else if (operation.type === "output") {
-			outputs[operation.name] = variables[operation.argument].toString();
+			outputs[operation.name] = variables[operation.argument].value.toString();
 		} else if (operation.type === "variable") {
-			variables[operation.name] = bigInt(0);
+			if (operation.datatype === "number") {
+				variables[operation.name] = { datatype: "number", value: bigInt(0) };
+			} else {
+				throw new Error("variable datatype cannot not be executed: " + operation.datatype + ".");
+			}
 		} else if (operation.type === "variableAssignment") {
-			variables[operation.assignee] = variables[operation.assigner];
+			variables[operation.assignee].value = variables[operation.assigner].value;
 		} else if (operation.type === "literalAssignment") {
-			variables[operation.assignee] = bigInt(operation.literal);
+			variables[operation.assignee].value = bigInt(operation.literal);
 		} else if (operation.type === "binaryExpression") {
 			if (operation.operator === "+") {
-				variables[operation.assignee] = variables[operation.left].add(variables[operation.right]);
+				variables[operation.assignee].value = variables[operation.left].value.add(variables[operation.right].value);
 			} else if (operation.operator === "-") {
-				variables[operation.assignee] = variables[operation.left].minus(variables[operation.right]);
+				variables[operation.assignee].value = variables[operation.left].value.minus(variables[operation.right].value);
 			} else if (operation.operator === "*") {
-				variables[operation.assignee] = variables[operation.left].multiply(variables[operation.right]);
+				variables[operation.assignee].value = variables[operation.left].value.multiply(variables[operation.right].value);
 			} else if (operation.operator === "/") {
-				variables[operation.assignee] = variables[operation.left].divide(variables[operation.right]);
+				variables[operation.assignee].value = variables[operation.left].value.divide(variables[operation.right].value);
 			} else {
 				throw new Error("binaryExpression cannot not be executed for operator " + operation.operator + ".");
 			}
