@@ -29,7 +29,7 @@ describe('parser', function () {
             assert.deepStrictEqual(parser.parse("a=b;"), [{ type: "variableAssignment", assignee: "a", assigner: "b" }]);
 			assert.deepStrictEqual(parser.parse("a = b; \n b = c;"), [{ type: "variableAssignment", assignee: "a", assigner: "b" }, { type: "variableAssignment", assignee: "b", assigner: "c" }]);
 		});
-		it('variable assignments should be parsed', function () {
+		it('literal assignments should be parsed', function () {
             assert.deepStrictEqual(parser.parse("a = 0;"), [{ type: "literalAssignment", assignee: "a", literal: "0" }]);
             assert.deepStrictEqual(parser.parse("a = 1;"), [{ type: "literalAssignment", assignee: "a", literal: "1" }]);
             assert.deepStrictEqual(parser.parse("a= 125;"), [{ type: "literalAssignment", assignee: "a", literal: "125" }]);
@@ -37,6 +37,15 @@ describe('parser', function () {
             assert.deepStrictEqual(parser.parse("a=1;"), [{ type: "literalAssignment", assignee: "a", literal: "1" }]);
 			assert.deepStrictEqual(parser.parse("a = 19; \n b = 0;"), [{ type: "literalAssignment", assignee: "a", literal: "19" }, { type: "literalAssignment", assignee: "b", literal: "0" }]);
 			assert.throws(function () { parser.parse("a = 00;");});
+		});
+		
+		it('boolean assignments should be parsed', function () {
+            assert.deepStrictEqual(parser.parse("a = False;"), [{ type: "booleanAssignment", assignee: "a", literal: "false" }]);
+            assert.deepStrictEqual(parser.parse("a = tRue;"), [{ type: "booleanAssignment", assignee: "a", literal: "true" }]);
+            assert.deepStrictEqual(parser.parse("a= false;"), [{ type: "booleanAssignment", assignee: "a", literal: "false" }]);
+            assert.deepStrictEqual(parser.parse("a =true;"), [{ type: "booleanAssignment", assignee: "a", literal: "true" }]);
+            assert.deepStrictEqual(parser.parse("a=false;"), [{ type: "booleanAssignment", assignee: "a", literal: "false" }]);
+			assert.deepStrictEqual(parser.parse("a = true; \n b = false;"), [{ type: "booleanAssignment", assignee: "a", literal: "true" }, { type: "booleanAssignment", assignee: "b", literal: "false" }]);
 		});
         it('binary expressions should be parsed', function () {
             assert.deepStrictEqual(parser.parse("a = a + a;"), [{ type: "binaryExpression", assignee: "a", left: "a", operator: "+", right: "a" }]);
