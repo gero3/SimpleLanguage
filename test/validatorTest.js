@@ -134,6 +134,8 @@ describe('validator', function () {
             assert.equal(validator.allDatatypesExistCheck([]), true);
             assert.equal(validator.allDatatypesExistCheck([{ type: "input", datatype: "number", name: "a" }]), true);
             assert.equal(validator.allDatatypesExistCheck([{ type: "variable", datatype: "number", name: "a" }]), true);
+            assert.equal(validator.allDatatypesExistCheck([{ type: "input", datatype: "boolean", name: "a" }]), true);
+            assert.equal(validator.allDatatypesExistCheck([{ type: "variable", datatype: "boolean", name: "a" }]), true);
             assert.equal(validator.allDatatypesExistCheck([{ type: "input", datatype: "blabla", name: "a" }]), false);
             assert.equal(validator.allDatatypesExistCheck([{ type: "variable", datatype: "blabla", name: "a" }]), false);
         });

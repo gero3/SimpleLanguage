@@ -77,11 +77,16 @@ var allUsedVariablesDeclaredCheck = function (operations) {
 };
 exports.allUsedVariablesDeclaredCheck = allUsedVariablesDeclaredCheck;
 
+
+var allowedDatatypes = {
+	number:true,
+	boolean:true
+}
 var allDatatypesExistCheck = function (operations) {
     var check = true;
     operations.forEach(function (operation) {
         if (operation.type === "input" || operation.type === "variable") {
-            if (operation.datatype !== "number") {
+            if (!allowedDatatypes[operation.datatype]) {
                 check = false;
             }; 
         };
