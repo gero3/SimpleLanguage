@@ -81,7 +81,7 @@ exports.allUsedVariablesDeclaredCheck = allUsedVariablesDeclaredCheck;
 var allowedDatatypes = {
 	number:true,
 	boolean:true
-}
+};
 var allDatatypesExistCheck = function (operations) {
     var check = true;
     operations.forEach(function (operation) {
