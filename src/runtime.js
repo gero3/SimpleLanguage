@@ -10,6 +10,8 @@ function executeOperations(operations, inputs) {
 		if (operation.type === "input") {
 			if (operation.datatype === "number") {
 				variables[operation.name] = { datatype: "number", value: bigInt(inputs[operation.name]) };
+			} else if (operation.datatype === "boolean") {
+				variables[operation.name] = { datatype: "boolean", value: inputs[operation.name] };
 			} else {
 				throw new Error("input datatype cannot not be executed: " + operation.datatype + ".");
 			}
@@ -18,6 +20,8 @@ function executeOperations(operations, inputs) {
 		} else if (operation.type === "variable") {
 			if (operation.datatype === "number") {
 				variables[operation.name] = { datatype: "number", value: bigInt(0) };
+			} else if (operation.datatype === "boolean") {
+				variables[operation.name] = { datatype: "boolean", value: false };
 			} else {
 				throw new Error("variable datatype cannot not be executed: " + operation.datatype + ".");
 			}
@@ -25,6 +29,14 @@ function executeOperations(operations, inputs) {
 			variables[operation.assignee].value = variables[operation.assigner].value;
 		} else if (operation.type === "literalAssignment") {
 			variables[operation.assignee].value = bigInt(operation.literal);
+		} else if (operation.type === "booleanAssignment") {
+			if (operation.literal === "true") {
+				variables[operation.assignee].value = true;
+			} else if (operation.literal === "false") {
+				variables[operation.assignee].value = false;
+			} else {
+				throw new Error("Boolean assignment needs to be either 'true' or 'false' instead of " + operation.literal + ".");
+			}
 		} else if (operation.type === "binaryExpression") {
 			if (operation.operator === "+") {
 				variables[operation.assignee].value = variables[operation.left].value.add(variables[operation.right].value);

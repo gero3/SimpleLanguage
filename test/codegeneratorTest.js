@@ -9,6 +9,8 @@ describe('codegenerator', function () {
 		it('inputs should be generated', function () {
 			assert.deepStrictEqual(codegenerator.generate([{ type: "input", datatype: "number", name: "a" }]), "input number a;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: "input", datatype: "number", name: "b" }]), "input number b;\n");
+			assert.deepStrictEqual(codegenerator.generate([{ type: "input", datatype: "boolean", name: "a" }]), "input boolean a;\n");
+			assert.deepStrictEqual(codegenerator.generate([{ type: "input", datatype: "boolean", name: "b" }]), "input boolean b;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: "input", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "b" }]), "input number a;\ninput number b;\n");
 		});
 		it('outputs should be generated', function () {
@@ -19,7 +21,7 @@ describe('codegenerator', function () {
 
 		it('variable declarations should be generated', function () {
 			assert.deepStrictEqual(codegenerator.generate([{ type: "variable", datatype: "number", name: "a" }]), "number a;\n");
-			assert.deepStrictEqual(codegenerator.generate([{ type: "variable", datatype: "number", name: "b" }]), "number b;\n");
+			assert.deepStrictEqual(codegenerator.generate([{ type: "variable", datatype: "boolean", name: "b" }]), "boolean b;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: "variable", datatype: "number", name: "a" }, { type: "variable", datatype: "number", name: "b" }]), "number a;\nnumber b;\n");
 		});
 		it('variable assignments should be generated', function () {
@@ -31,6 +33,11 @@ describe('codegenerator', function () {
 			assert.deepStrictEqual(codegenerator.generate([{ type: "literalAssignment", assignee: "a", literal: "0" }]), "a = 0;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: "literalAssignment", assignee: "a", literal: "40" }]), "a = 40;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: "literalAssignment", assignee: "a", literal: "19" }, { type: "literalAssignment", assignee: "b", literal: "0" }]), "a = 19;\nb = 0;\n");
+		});
+		it('literal assignments should be generated', function () {
+			assert.deepStrictEqual(codegenerator.generate([{ type: "booleanAssignment", assignee: "a", literal: "true" }]), "a = true;\n");
+			assert.deepStrictEqual(codegenerator.generate([{ type: "booleanAssignment", assignee: "a", literal: "false" }]), "a = false;\n");
+			assert.deepStrictEqual(codegenerator.generate([{ type: "booleanAssignment", assignee: "a", literal: "true" }, { type: "booleanAssignment", assignee: "b", literal: "false" }]), "a = true;\nb = false;\n");
 		});
         it('binary expressions should be generated', function () {
 			assert.deepStrictEqual(codegenerator.generate([{ type: "binaryExpression", assignee: "a", left: "a", operator: "+", right: "a" }]), "a = a + a;\n");
