@@ -1,4 +1,5 @@
 var assert = require('assert');
+var constant = require('../src/constant');
 var runtime = require('../src/runtime');
 describe('runtime', function () {
 	
@@ -32,10 +33,10 @@ describe('runtime', function () {
         });
         it('ouput errors when invalid script', function () {
             assert.throws(function () { runtime.executeOperations([{ type: "blabla", assignee: "a", left: "a", operator: "+", right: "a" }]); });
-            assert.throws(function () { runtime.executeOperations([{ type: "binaryExpression", assignee: "a", left: "a", operator: "blabla", right: "a" }]); });
-            assert.throws(function () { runtime.executeOperations([{ type: "input", datatype: "blabla", name: "a"}]); });
-            assert.throws(function () { runtime.executeOperations([{ type: "variable", datatype: "blabla", name: "a"}]); });
-            assert.throws(function () { runtime.executeOperations([{ type: "booleanAssignment", assignee: "a", literal: "fasle"}]); });
+            assert.throws(function () { runtime.executeOperations([{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "blabla", right: "a" }]); });
+            assert.throws(function () { runtime.executeOperations([{ type: constant.input, datatype: "blabla", name: "a"}]); });
+            assert.throws(function () { runtime.executeOperations([{ type: constant.variable, datatype: "blabla", name: "a"}]); });
+            assert.throws(function () { runtime.executeOperations([{ type: constant.booleanAssignment, assignee: "a", literal: "fasle"}]); });
         });
 
     });

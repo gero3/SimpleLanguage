@@ -59,23 +59,25 @@ function executeBinaryExpressionOperation(operation, inputs, variables, outputs)
     }
 }
 
+var constant = require("./constant");
+
 function executeOperations(operations, inputs) {
     var outputs = {};
     var variables = {};
     operations.forEach(function (operation) {
-        if (operation.type === "input") {
+        if (operation.type === constant.input) {
             executeInputOperation(operation, inputs, variables, outputs);
-        } else if (operation.type === "output") {
+        } else if (operation.type === constant.output) {
             executeOutputOperation(operation, inputs, variables, outputs);
-        } else if (operation.type === "variable") {
+        } else if (operation.type === constant.variable) {
             executeVariableOperation(operation, inputs, variables, outputs);
-        } else if (operation.type === "variableAssignment") {
+        } else if (operation.type === constant.variableAssignment) {
             executeVariableAssignmentOperation(operation, inputs, variables, outputs);
-        } else if (operation.type === "literalAssignment") {
+        } else if (operation.type === constant.literalAssignment) {
             executeLiteralAssignmentOperation(operation, inputs, variables, outputs);
-        } else if (operation.type === "booleanAssignment") {
+        } else if (operation.type === constant.booleanAssignment) {
             executeBooleanAssignmentOperation(operation, inputs, variables, outputs);
-        } else if (operation.type === "binaryExpression") {
+        } else if (operation.type === constant.binaryExpression) {
             executeBinaryExpressionOperation(operation, inputs, variables, outputs);
         } else {
             throw new Error("operation cannot not be executed for operation type " + operation.type + ".");

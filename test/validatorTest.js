@@ -1,4 +1,6 @@
 var assert = require('assert');
+var constant = require('../src/constant');
+
 var parser = require('../src/parser');
 var validator = require('../src/validator');
 describe('validator', function () {
@@ -9,13 +11,13 @@ describe('validator', function () {
         });
         it('validOperations should validate operations.', function () {
             assert.equal(validator.validOperations([]), true);
-            assert.equal(validator.validOperations([{ type: "input", datatype: "number", name: "a" }, { type: "variable", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "b" }]), false);
-            assert.equal(validator.validOperations([{ type: "variable", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "b" }]), false);
-            assert.equal(validator.validOperations([{ type: "output", name: "returnvalue", argument: "a" }, { type: "variable", datatype: "number", argument: "a" }, { type: "output", name: "returnvaluetwo", argument: "b" }]), false);
-            assert.equal(validator.validOperations([{ type: "output", name: "returnvalue", argument: "a" }, { type: "variable", datatype: "number", argument: "a" }]), false);
-            assert.equal(validator.validOperations([{ type: "variable", datatype: "number", name: "a" }, { type: "variable", datatype: "number", name: "a" }]), false);
-            assert.equal(validator.validOperations([{ type: "input", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "a" }]), false);
-            assert.equal(validator.validOperations([{ type: "input", datatype: "number", name: "a" }, { type: "variable", datatype: "number", name: "a" }]), false);
+            assert.equal(validator.validOperations([{ type: constant.input, datatype: "number", name: "a" }, { type: constant.variable, datatype: "number", name: "a" }, { type: constant.input, datatype: "number", name: "b" }]), false);
+            assert.equal(validator.validOperations([{ type: constant.variable, datatype: "number", name: "a" }, { type: constant.input, datatype: "number", name: "b" }]), false);
+            assert.equal(validator.validOperations([{ type: constant.output, name: "returnvalue", argument: "a" }, { type: constant.variable, datatype: "number", argument: "a" }, { type: constant.output, name: "returnvaluetwo", argument: "b" }]), false);
+            assert.equal(validator.validOperations([{ type: constant.output, name: "returnvalue", argument: "a" }, { type: constant.variable, datatype: "number", argument: "a" }]), false);
+            assert.equal(validator.validOperations([{ type: constant.variable, datatype: "number", name: "a" }, { type: constant.variable, datatype: "number", name: "a" }]), false);
+            assert.equal(validator.validOperations([{ type: constant.input, datatype: "number", name: "a" }, { type: constant.input, datatype: "number", name: "a" }]), false);
+            assert.equal(validator.validOperations([{ type: constant.input, datatype: "number", name: "a" }, { type: constant.variable, datatype: "number", name: "a" }]), false);
             assert.equal(validator.validOperations(parser.parse("output a a;")), false);
             assert.equal(validator.validOperations(parser.parse("a = 6;")), false);
             assert.equal(validator.validOperations(parser.parse("input number b;a = b;")), false);
@@ -38,12 +40,12 @@ describe('validator', function () {
 		});
 		it('inputsFirstCheck should check if inputs are first.', function () {
 			assert.equal(validator.inputsFirstCheck([]), true);
-			assert.equal(validator.inputsFirstCheck([{ type: "input", datatype: "number", name: "a" }]), true);
-			assert.equal(validator.inputsFirstCheck([{ type: "input", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "b" }]), true);
-			assert.equal(validator.inputsFirstCheck([{ type: "input", datatype: "number", name: "a" }, { type: "variable", datatype: "number", name: "a" }]), true);
-			assert.equal(validator.inputsFirstCheck([{ type: "variable", datatype: "number", name: "a" }]), true);
-			assert.equal(validator.inputsFirstCheck([{ type: "input", datatype: "number", name: "a" }, { type: "variable", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "b" }]), false);
-			assert.equal(validator.inputsFirstCheck([{ type: "variable", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "b" }]), false);
+			assert.equal(validator.inputsFirstCheck([{ type: constant.input, datatype: "number", name: "a" }]), true);
+			assert.equal(validator.inputsFirstCheck([{ type: constant.input, datatype: "number", name: "a" }, { type: constant.input, datatype: "number", name: "b" }]), true);
+			assert.equal(validator.inputsFirstCheck([{ type: constant.input, datatype: "number", name: "a" }, { type: constant.variable, datatype: "number", name: "a" }]), true);
+			assert.equal(validator.inputsFirstCheck([{ type: constant.variable, datatype: "number", name: "a" }]), true);
+			assert.equal(validator.inputsFirstCheck([{ type: constant.input, datatype: "number", name: "a" }, { type: constant.variable, datatype: "number", name: "a" }, { type: constant.input, datatype: "number", name: "b" }]), false);
+			assert.equal(validator.inputsFirstCheck([{ type: constant.variable, datatype: "number", name: "a" }, { type: constant.input, datatype: "number", name: "b" }]), false);
 		});
 	});
 
@@ -54,12 +56,12 @@ describe('validator', function () {
 		});
 		it('outputsLastCheck should check if outputs are last.', function () {
 			assert.equal(validator.outputsLastCheck([]), true);
-			assert.equal(validator.outputsLastCheck([{ type: "output", name: "returnvalue", argument: "a" }]), true);
-			assert.equal(validator.outputsLastCheck([{ type: "output", name: "returnvalue", argument: "a" }, { type: "output", name: "returnvaluetwo", argument: "b" }]), true);
-			assert.equal(validator.outputsLastCheck([{ type: "variable", datatype: "number", argument: "a" }, { type: "output", name: "returnvalue", argument: "a" }]), true);
-			assert.equal(validator.outputsLastCheck([{ type: "variable", datatype: "number", argument: "a" }]), true);
-			assert.equal(validator.outputsLastCheck([{ type: "output", name: "returnvalue", argument: "a" }, { type: "variable", datatype: "number", argument: "a" }, { type: "output", name: "returnvaluetwo", argument: "b" }]), false);
-			assert.equal(validator.outputsLastCheck([{ type: "output", name: "returnvalue", argument: "a" }, { type: "variable", datatype: "number", argument: "a" }]), false);
+			assert.equal(validator.outputsLastCheck([{ type: constant.output, name: "returnvalue", argument: "a" }]), true);
+			assert.equal(validator.outputsLastCheck([{ type: constant.output, name: "returnvalue", argument: "a" }, { type: constant.output, name: "returnvaluetwo", argument: "b" }]), true);
+			assert.equal(validator.outputsLastCheck([{ type: constant.variable, datatype: "number", argument: "a" }, { type: constant.output, name: "returnvalue", argument: "a" }]), true);
+			assert.equal(validator.outputsLastCheck([{ type: constant.variable, datatype: "number", argument: "a" }]), true);
+			assert.equal(validator.outputsLastCheck([{ type: constant.output, name: "returnvalue", argument: "a" }, { type: constant.variable, datatype: "number", argument: "a" }, { type: constant.output, name: "returnvaluetwo", argument: "b" }]), false);
+			assert.equal(validator.outputsLastCheck([{ type: constant.output, name: "returnvalue", argument: "a" }, { type: constant.variable, datatype: "number", argument: "a" }]), false);
 		});
 	});
 
@@ -70,15 +72,15 @@ describe('validator', function () {
 		});
 		it('inputAndVariableNameUniqueCheck should check if inputs and variables are unique.', function () {
 			assert.equal(validator.inputAndVariableNameUniqueCheck([]), true);
-			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: "output", name: "returnvalue", argument: "a" }]), true);
-			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: "input", datatype: "number", name: "a" }]), true);
-			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: "input", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "b" }]), true);
-			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: "variable", datatype: "number", name: "a" }]), true);
-			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: "variable", datatype: "number", name: "a" },{ type: "variable", datatype: "number", name: "b" }]), true);
-			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: "input", datatype: "number", name: "a" },{ type: "variable", datatype: "number", name: "b" }]), true);
-			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: "variable", datatype: "number", name: "a" },{ type: "variable", datatype: "number", name: "a" }]), false);
-			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: "input", datatype: "number", name: "a" },{ type: "input", datatype: "number", name: "a" }]), false);
-			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: "input", datatype: "number", name: "a" },{ type: "variable", datatype: "number", name: "a" }]), false);
+			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: constant.output, name: "returnvalue", argument: "a" }]), true);
+			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: constant.input, datatype: "number", name: "a" }]), true);
+			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: constant.input, datatype: "number", name: "a" }, { type: constant.input, datatype: "number", name: "b" }]), true);
+			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: constant.variable, datatype: "number", name: "a" }]), true);
+			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: constant.variable, datatype: "number", name: "a" },{ type: constant.variable, datatype: "number", name: "b" }]), true);
+			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: constant.input, datatype: "number", name: "a" },{ type: constant.variable, datatype: "number", name: "b" }]), true);
+			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: constant.variable, datatype: "number", name: "a" },{ type: constant.variable, datatype: "number", name: "a" }]), false);
+			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: constant.input, datatype: "number", name: "a" },{ type: constant.input, datatype: "number", name: "a" }]), false);
+			assert.equal(validator.inputAndVariableNameUniqueCheck([{ type: constant.input, datatype: "number", name: "a" },{ type: constant.variable, datatype: "number", name: "a" }]), false);
 			
 		});
 	});
@@ -132,12 +134,12 @@ describe('validator', function () {
         });
         it('allDatatypesExistCheck should check if all datatypes exists.', function () {
             assert.equal(validator.allDatatypesExistCheck([]), true);
-            assert.equal(validator.allDatatypesExistCheck([{ type: "input", datatype: "number", name: "a" }]), true);
-            assert.equal(validator.allDatatypesExistCheck([{ type: "variable", datatype: "number", name: "a" }]), true);
-            assert.equal(validator.allDatatypesExistCheck([{ type: "input", datatype: "boolean", name: "a" }]), true);
-            assert.equal(validator.allDatatypesExistCheck([{ type: "variable", datatype: "boolean", name: "a" }]), true);
-            assert.equal(validator.allDatatypesExistCheck([{ type: "input", datatype: "blabla", name: "a" }]), false);
-            assert.equal(validator.allDatatypesExistCheck([{ type: "variable", datatype: "blabla", name: "a" }]), false);
+            assert.equal(validator.allDatatypesExistCheck([{ type: constant.input, datatype: "number", name: "a" }]), true);
+            assert.equal(validator.allDatatypesExistCheck([{ type: constant.variable, datatype: "number", name: "a" }]), true);
+            assert.equal(validator.allDatatypesExistCheck([{ type: constant.input, datatype: "boolean", name: "a" }]), true);
+            assert.equal(validator.allDatatypesExistCheck([{ type: constant.variable, datatype: "boolean", name: "a" }]), true);
+            assert.equal(validator.allDatatypesExistCheck([{ type: constant.input, datatype: "blabla", name: "a" }]), false);
+            assert.equal(validator.allDatatypesExistCheck([{ type: constant.variable, datatype: "blabla", name: "a" }]), false);
         });
     });
 

@@ -1,4 +1,6 @@
 var assert = require('assert');
+var constant = require('../src/constant');
+
 var index = require('../src/index');
 describe('index', function () {
 	describe('#normalize()', function () {
@@ -28,7 +30,7 @@ describe('index', function () {
         });
 
         it('text should be parsed or invalid', function () {
-            assert.deepStrictEqual(index.parse("INPUT Number A;"), [{ type: "input", datatype: "number", name: "a" }]);
+            assert.deepStrictEqual(index.parse("INPUT Number A;"), [{ type: constant.input, datatype: "number", name: "a" }]);
             assert.throws(function () { index.parse("number b;INPUT Number A;"); });
         });
     });
@@ -39,8 +41,8 @@ describe('index', function () {
             assert.equal(typeof index.generate === "function", true);
         });
         it('operations should be generated to text or invalid', function () {
-            assert.deepStrictEqual(index.generate([{ type: "input", datatype: "number", name: "a" }]), "input number a;\n");
-            assert.throws(function () { index.generate([{ type: "input", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "a" }]); });
+            assert.deepStrictEqual(index.generate([{ type: constant.input, datatype: "number", name: "a" }]), "input number a;\n");
+            assert.throws(function () { index.generate([{ type: constant.input, datatype: "number", name: "a" }, { type: constant.input, datatype: "number", name: "a" }]); });
         });
 
     });
@@ -69,8 +71,8 @@ describe('index', function () {
         });
 
         it('operations should be validated', function () {
-            assert.deepStrictEqual(index.validate([{ type: "input", datatype: "number", name: "a" }]), true);
-            assert.deepStrictEqual(index.validate([{ type: "input", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "a" }]), false);
+            assert.deepStrictEqual(index.validate([{ type: constant.input, datatype: "number", name: "a" }]), true);
+            assert.deepStrictEqual(index.validate([{ type: constant.input, datatype: "number", name: "a" }, { type: constant.input, datatype: "number", name: "a" }]), false);
         });
     });
 
@@ -92,8 +94,8 @@ describe('index', function () {
             assert.equal(typeof index.validateOperations === "function", true);
         });
         it('operations should be validated', function () {
-            assert.deepStrictEqual(index.validateOperations([{ type: "input", datatype: "number", name: "a" }]), true);
-            assert.deepStrictEqual(index.validateOperations([{ type: "input", datatype: "number", name: "a" }, { type: "input", datatype: "number", name: "a" }]), false);
+            assert.deepStrictEqual(index.validateOperations([{ type: constant.input, datatype: "number", name: "a" }]), true);
+            assert.deepStrictEqual(index.validateOperations([{ type: constant.input, datatype: "number", name: "a" }, { type: constant.input, datatype: "number", name: "a" }]), false);
         });
 
     });
