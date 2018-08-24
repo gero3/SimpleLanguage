@@ -10,9 +10,7 @@ var binaryExpressionRegex = /^([a-z]+) ?= ?([a-z]+) ?([\+\-\/\*]) ?([a-z]+)\;/;
 exports.parse = function (text) {
 	var operations = [];
 	var trimmedText = text.toLowerCase().trim();
-	var length = 0;
 	while (trimmedText.length > 0) {
-		length = trimmedText.toString().length;
 		var match = inputRegex.exec(trimmedText);
 		if (match && match.length > 0) {
 			operations.push({ type: "input", datatype: match[1], name: match[2] });
