@@ -97,6 +97,25 @@ var allDatatypesExistCheck = function (operations) {
 exports.allDatatypesExistCheck = allDatatypesExistCheck;
 
 
+var datatypeForBinaryExpressionCheck = function (operations) {
+	var check = true;
+	var variableDatatype = {};
+	operations.forEach(function (operation) {
+		if (operation.type === constant.variable) {
+			variableDatatype[operation.name] = operation.datatype;
+		};
+		if (operation.type === constant.binaryExpression) {
+			if (variableDatatype[operation.assignee] !== "number" || variableDatatype[operation.left] !== "number" || variableDatatype[operation.right] !== "number") {
+				check = false;
+			} 
+		};
+	});
+	return check;
+};
+exports.datatypeForBinaryExpressionCheck = datatypeForBinaryExpressionCheck;
+
+
+
 
 exports.validOperations = function (operations) {
 	var check = true;
@@ -105,5 +124,6 @@ exports.validOperations = function (operations) {
 	check = check && inputAndVariableNameUniqueCheck(operations);
 	check = check && allUsedVariablesDeclaredCheck(operations);
 	check = check && allDatatypesExistCheck(operations);
+	check = check && datatypeForBinaryExpressionCheck(operations);
 	return check;
 };
