@@ -41,16 +41,16 @@ describe('codegenerator', function () {
 			assert.deepStrictEqual(codegenerator.generate([{ type: constant.booleanAssignment, assignee: "a", literal: "false" }]), "a = false;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: constant.booleanAssignment, assignee: "a", literal: "true" }, { type: constant.booleanAssignment, assignee: "b", literal: "false" }]), "a = true;\nb = false;\n");
 		});
-        it('binary expressions should be generated', function () {
+		it('binary expressions should be generated', function () {
 			assert.deepStrictEqual(codegenerator.generate([{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "+", right: "a" }]), "a = a + a;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: constant.binaryExpression, assignee: "a", left: "b", operator: "-", right: "c" }]), "a = b - c;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: constant.binaryExpression, assignee: "a", left: "d", operator: "*", right: "e" }]), "a = d * e;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: constant.binaryExpression, assignee: "a", left: "f", operator: "/", right: "g" }]), "a = f / g;\n");
 			assert.deepStrictEqual(codegenerator.generate([{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "/", right: "a" }, { type: constant.binaryExpression, assignee: "a", left: "a", operator: "*", right: "a" }]), "a = a / a;\na = a * a;\n");
 		});
-		
-        it('invalid expressions should throw exception', function () {
-			assert.throws(function () {codegenerator.generate([{ type: "blabla", assignee: "a", left: "a", operator: "+", right: "a" }]);});
+
+		it('invalid expressions should throw exception', function () {
+			assert.throws(function () { codegenerator.generate([{ type: "blabla", assignee: "a", left: "a", operator: "+", right: "a" }]); });
 		});
 	});
 });

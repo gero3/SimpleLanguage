@@ -2,7 +2,7 @@ var constant = require("./constant");
 
 var inputsFirstCheck = function (operations) {
 	var check = true;
-    var beginning = true;
+	var beginning = true;
 	operations.forEach(function (operation) {
 		if (operation.type !== constant.input) {
 			beginning = false;
@@ -47,63 +47,63 @@ var inputAndVariableNameUniqueCheck = function (operations) {
 exports.inputAndVariableNameUniqueCheck = inputAndVariableNameUniqueCheck;
 
 var allUsedVariablesDeclaredCheck = function (operations) {
-    var check = true;
-    var variableNames = {};
-    operations.forEach(function (operation) {
-        if (operation.type === constant.input || operation.type === constant.variable) {
-            variableNames[operation.name] = true;
-        };
-        if (operation.type === constant.variableAssignment) {
-            if (!(variableNames[operation.assignee] && variableNames[operation.assigner])) {
-                check = false;
-            }
-        };
-        if (operation.type === constant.literalAssignment) {
-            if (!variableNames[operation.assignee]) {
-                check = false;
-            }
-        };
-        if (operation.type === constant.binaryExpression) {
-            if (!(variableNames[operation.assignee] && variableNames[operation.left] && variableNames[operation.right])) {
-                check = false;
-            }
-        };
-        if (operation.type === constant.output) {
-            if (!variableNames[operation.argument]) {
-                check = false;
-            }
-        };            
-    });
-    return check;
+	var check = true;
+	var variableNames = {};
+	operations.forEach(function (operation) {
+		if (operation.type === constant.input || operation.type === constant.variable) {
+			variableNames[operation.name] = true;
+		};
+		if (operation.type === constant.variableAssignment) {
+			if (!(variableNames[operation.assignee] && variableNames[operation.assigner])) {
+				check = false;
+			}
+		};
+		if (operation.type === constant.literalAssignment) {
+			if (!variableNames[operation.assignee]) {
+				check = false;
+			}
+		};
+		if (operation.type === constant.binaryExpression) {
+			if (!(variableNames[operation.assignee] && variableNames[operation.left] && variableNames[operation.right])) {
+				check = false;
+			}
+		};
+		if (operation.type === constant.output) {
+			if (!variableNames[operation.argument]) {
+				check = false;
+			}
+		};
+	});
+	return check;
 };
 exports.allUsedVariablesDeclaredCheck = allUsedVariablesDeclaredCheck;
 
 
 var allowedDatatypes = {
-	number:true,
-	boolean:true
+	number: true,
+	boolean: true
 };
 var allDatatypesExistCheck = function (operations) {
-    var check = true;
-    operations.forEach(function (operation) {
-        if (operation.type === constant.input || operation.type === constant.variable) {
-            if (!allowedDatatypes[operation.datatype]) {
-                check = false;
-            }; 
-        };
-    });
-    return check;
+	var check = true;
+	operations.forEach(function (operation) {
+		if (operation.type === constant.input || operation.type === constant.variable) {
+			if (!allowedDatatypes[operation.datatype]) {
+				check = false;
+			};
+		};
+	});
+	return check;
 };
 exports.allDatatypesExistCheck = allDatatypesExistCheck;
 
 
 
-exports.validOperations = function (operations){
+exports.validOperations = function (operations) {
 	var check = true;
 	check = check && inputsFirstCheck(operations);
 	check = check && outputsLastCheck(operations);
-    check = check && inputAndVariableNameUniqueCheck(operations);
-    check = check && allUsedVariablesDeclaredCheck(operations);
-    check = check && allDatatypesExistCheck(operations);
+	check = check && inputAndVariableNameUniqueCheck(operations);
+	check = check && allUsedVariablesDeclaredCheck(operations);
+	check = check && allDatatypesExistCheck(operations);
 	return check;
 };
