@@ -29,6 +29,12 @@ describe('validator', function () {
 			assert.equal(validator.validOperations(parser.parse("input number a;a = b / c;")), false);
 			assert.equal(validator.validOperations(parser.parse("input number b;a = b - c;")), false);
 			assert.equal(validator.validOperations(parser.parse("input number c;a = b + c;")), false);
+
+			assert.equal(validator.validOperations(parser.parse("number a;number b;number c;a = b + c;")), true);
+			assert.equal(validator.validOperations(parser.parse("boolean a;number b;number c;a = b + c;")), false);
+			assert.equal(validator.validOperations(parser.parse("number a;boolean b;number c;a = b - c;")), false);
+			assert.equal(validator.validOperations(parser.parse("number a;number b;boolean c;a = b * c;")), false);
+			assert.equal(validator.validOperations(parser.parse("boolean a;boolean b;boolean c;a = b / c;")), false);
 		});
 
 	});
