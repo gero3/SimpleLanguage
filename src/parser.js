@@ -7,7 +7,7 @@ var variableDeclarationRegex = /^([a-z]+) ([a-z]+)\;/;
 var variableAssignmentRegex = /^([a-z]+) ?= ?([a-z]+)\;/;
 var literalAssignmentRegex = /^([a-z]+) ?= ?([1-9][0-9]*|0)\;/;
 var booleanAssignmentRegex = /^([a-z]+) ?= ?(true|false)\;/;
-var binaryExpressionRegex = /^([a-z]+) ?= ?([a-z]+) ?([\+\-\/\*]) ?([a-z]+)\;/;
+var binaryExpressionRegex = /^([a-z]+) ?= ?([a-z]+) ?([\+\-\/\*\>\<\&\|]|\=\>|\=\<) ?([a-z]+)\;/;
 
 exports.parse = function (text) {
 	var operations = [];
