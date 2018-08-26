@@ -61,6 +61,8 @@ describe('parser', function () {
             assert.deepStrictEqual(parser.parse("a =b > c;"), [{ type: constant.binaryExpression, assignee: "a", left: "b", operator: ">", right: "c" }]);
             assert.deepStrictEqual(parser.parse("a = d& e;"), [{ type: constant.binaryExpression, assignee: "a", left: "d", operator: "&", right: "e" }]);
             assert.deepStrictEqual(parser.parse("a = f |g;"), [{ type: constant.binaryExpression, assignee: "a", left: "f", operator: "|", right: "g" }]);
+            assert.deepStrictEqual(parser.parse("a = d => e;"), [{ type: constant.binaryExpression, assignee: "a", left: "d", operator: "=>", right: "e" }]);
+            assert.deepStrictEqual(parser.parse("a = f =< g;"), [{ type: constant.binaryExpression, assignee: "a", left: "f", operator: "=<", right: "g" }]);
 			assert.deepStrictEqual(parser.parse("a=a+a;"), [{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "+", right: "a" }]);
 			assert.deepStrictEqual(parser.parse("a = a / a; a = a * a;"), [{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "/", right: "a" }, { type: constant.binaryExpression, assignee: "a", left: "a", operator: "*", right: "a" }]);
 			assert.throws(function () { parser.parse("a = a \ a;"); });
