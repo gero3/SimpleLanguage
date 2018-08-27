@@ -105,9 +105,22 @@ var datatypeForBinaryExpressionCheck = function (operations) {
 			variableDatatype[operation.name] = operation.datatype;
 		};
 		if (operation.type === constant.binaryExpression) {
-			if (variableDatatype[operation.assignee] !== "number" || variableDatatype[operation.left] !== "number" || variableDatatype[operation.right] !== "number") {
+			if (["+", "-", "*", "/"].indexOf(operation.operator) > -1) {
+				if (variableDatatype[operation.assignee] !== "number" || variableDatatype[operation.left] !== "number" || variableDatatype[operation.right] !== "number") {
+					check = false;
+				}
+			} else if ([">", "<", "=>", "=<"].indexOf(operation.operator) > -1) {
+				if (variableDatatype[operation.assignee] !== "boolean" || variableDatatype[operation.left] !== "number" || variableDatatype[operation.right] !== "number") {
+					check = false;
+				}
+			} else if (["&", "|"].indexOf(operation.operator) > -1) {
+				if (variableDatatype[operation.assignee] !== "boolean" || variableDatatype[operation.left] !== "boolean" || variableDatatype[operation.right] !== "boolean") {
+					check = false;
+				}
+			} else {
 				check = false;
-			} 
+			}
+
 		};
 	});
 	return check;
