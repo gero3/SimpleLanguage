@@ -45,7 +45,7 @@ function executeBooleanAssignmentOperation(operation, inputs, variables, outputs
 	}
 }
 
-function executeBinaryExpressionOperation(operation, inputs, variables, outputs) {
+function executeNumberExpressionOperation(operation, inputs, variables, outputs) {
 
 	var assignee = variables[operation.assignee];
 	var left = variables[operation.left];
@@ -65,7 +65,17 @@ function executeBinaryExpressionOperation(operation, inputs, variables, outputs)
 			throw new Error("binaryExpression cannot not be executed for operator " + operation.operator + ".");
 		}
 
-	} else if (assignee.datatype === "boolean" && left.datatype === "boolean" && right.datatype === "boolean") {
+	} else {
+		throw new Error("binaryExpression cannot not be executed for operation " + operation.assignee + " = " + operation.left + " " + operation.operator + " " + operation.right + ".");
+	}
+}
+function executeBooleanExpressionOperation(operation, inputs, variables, outputs) {
+
+	var assignee = variables[operation.assignee];
+	var left = variables[operation.left];
+	var right = variables[operation.right];
+
+	if (assignee.datatype === "boolean" && left.datatype === "boolean" && right.datatype === "boolean") {
 
 		if (operation.operator === "&") {
 			assignee.value = left.value && right.value;
@@ -74,7 +84,17 @@ function executeBinaryExpressionOperation(operation, inputs, variables, outputs)
 		} else {
 			throw new Error("binaryExpression cannot not be executed for operator " + operation.operator + ".");
 		}
-	} else if (assignee.datatype === "boolean" && left.datatype === "number" && right.datatype === "number") {
+	} else {
+		throw new Error("binaryExpression cannot not be executed for operation " + operation.assignee + " = " + operation.left + " " + operation.operator + " " + operation.right + ".");
+	}
+}
+function executeComparisionExpressionOperation(operation, inputs, variables, outputs) {
+
+	var assignee = variables[operation.assignee];
+	var left = variables[operation.left];
+	var right = variables[operation.right];
+
+	if (assignee.datatype === "boolean" && left.datatype === "number" && right.datatype === "number") {
 
 		if (operation.operator === "<") {
 			assignee.value = left.value.lesser(right.value);
@@ -88,7 +108,7 @@ function executeBinaryExpressionOperation(operation, inputs, variables, outputs)
 			throw new Error("binaryExpression cannot not be executed for operator " + operation.operator + ".");
 		}
 	} else {
-			throw new Error("binaryExpression cannot not be executed for oepration " + operation.assignee + " = " + operation.left + " " + operation.operator + " " + operation.right + ".");
+		throw new Error("binaryExpression cannot not be executed for operation " + operation.assignee + " = " + operation.left + " " + operation.operator + " " + operation.right + ".");
 	}
 
 
@@ -113,8 +133,12 @@ function executeOperations(operations, inputs) {
 			executeLiteralAssignmentOperation(operation, inputs, variables, outputs);
 		} else if (operation.type === constant.booleanAssignment) {
 			executeBooleanAssignmentOperation(operation, inputs, variables, outputs);
-		} else if (operation.type === constant.binaryExpression) {
-			executeBinaryExpressionOperation(operation, inputs, variables, outputs);
+		} else if (operation.type === constant.numberExpression) {
+			executeNumberExpressionOperation(operation, inputs, variables, outputs);
+		} else if (operation.type === constant.booleanExpression) {
+			executeBooleanExpressionOperation(operation, inputs, variables, outputs);
+		} else if (operation.type === constant.comparisionExpression) {
+			executeComparisionExpressionOperation(operation, inputs, variables, outputs);
 		} else {
 			throw new Error("operation cannot not be executed for operation type " + operation.type + ".");
 		}

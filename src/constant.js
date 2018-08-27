@@ -4,4 +4,6 @@ exports.variable = "variable";
 exports.literalAssignment = "literalAssignment";
 exports.booleanAssignment = "booleanAssignment";
 exports.variableAssignment = "variableAssignment";
-exports.binaryExpression = "binaryExpression";
+exports.numberExpression = "numberExpression";
+exports.booleanExpression = "booleanExpression";
+exports.comparisionExpression = "comparisionExpression";

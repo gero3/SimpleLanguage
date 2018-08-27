@@ -7,7 +7,9 @@ var variableDeclarationRegex = /^([a-z]+) ([a-z]+)\;/;
 var variableAssignmentRegex = /^([a-z]+) ?= ?([a-z]+)\;/;
 var literalAssignmentRegex = /^([a-z]+) ?= ?([1-9][0-9]*|0)\;/;
 var booleanAssignmentRegex = /^([a-z]+) ?= ?(true|false)\;/;
-var binaryExpressionRegex = /^([a-z]+) ?= ?([a-z]+) ?([\+\-\/\*\>\<\&\|]|\=\>|\=\<) ?([a-z]+)\;/;
+var numberExpressionRegex = /^([a-z]+) ?= ?([a-z]+) ?([\+\-\/\*]) ?([a-z]+)\;/;
+var booleanExpressionRegex = /^([a-z]+) ?= ?([a-z]+) ?([\&\|]) ?([a-z]+)\;/;
+var comparisionExpressionRegex = /^([a-z]+) ?= ?([a-z]+) ?([\<\>]|\=\>|\=\<) ?([a-z]+)\;/;
 
 exports.parse = function (text) {
 	var operations = [];
@@ -49,9 +51,21 @@ exports.parse = function (text) {
 			trimmedText = trimmedText.substr(match[0].length).trim();
 			continue;
 		}
-		match = binaryExpressionRegex.exec(trimmedText);
+		match = numberExpressionRegex.exec(trimmedText);
 		if (match && match.length > 0) {
-			operations.push({ type: constant.binaryExpression, assignee: match[1], left: match[2], operator: match[3], right: match[4] });
+			operations.push({ type: constant.numberExpression, assignee: match[1], left: match[2], operator: match[3], right: match[4] });
+			trimmedText = trimmedText.substr(match[0].length).trim();
+			continue;
+		}
+		match = booleanExpressionRegex.exec(trimmedText);
+		if (match && match.length > 0) {
+			operations.push({ type: constant.booleanExpression, assignee: match[1], left: match[2], operator: match[3], right: match[4] });
+			trimmedText = trimmedText.substr(match[0].length).trim();
+			continue;
+		}
+		match = comparisionExpressionRegex.exec(trimmedText);
+		if (match && match.length > 0) {
+			operations.push({ type: constant.comparisionExpression, assignee: match[1], left: match[2], operator: match[3], right: match[4] });
 			trimmedText = trimmedText.substr(match[0].length).trim();
 			continue;
 		}

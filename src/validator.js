@@ -63,7 +63,7 @@ var allUsedVariablesDeclaredCheck = function (operations) {
 				check = false;
 			}
 		};
-		if (operation.type === constant.binaryExpression) {
+		if (operation.type === constant.numberExpression ||operation.type === constant.booleanExpression ||operation.type === constant.comparisonExpression) {
 			if (!(variableNames[operation.assignee] && variableNames[operation.left] && variableNames[operation.right])) {
 				check = false;
 			}
@@ -97,23 +97,54 @@ var allDatatypesExistCheck = function (operations) {
 exports.allDatatypesExistCheck = allDatatypesExistCheck;
 
 
-var datatypeForBinaryExpressionCheck = function (operations) {
+var datatypeForNumberExpressionCheck = function (operations) {
+	var check = true;
+	var variableDatatype = {};
+	operations.forEach(function (operation) {
+		if (operation.type === constant.variable) {
+			variableDatatype[operation.name] = operation.datatype;
+		}
+		if (operation.type === constant.numberExpression) {
+			if (["+", "-", "*", "/"].indexOf(operation.operator) > -1) {
+				if (variableDatatype[operation.assignee] !== "number" || variableDatatype[operation.left] !== "number" || variableDatatype[operation.right] !== "number") {
+					check = false;
+				}
+			}
+		}
+	});
+	return check;
+};
+exports.datatypeForNumberExpressionCheck = datatypeForNumberExpressionCheck;
+
+var datatypeForComparisionExpressionCheck = function (operations) {
 	var check = true;
 	var variableDatatype = {};
 	operations.forEach(function (operation) {
 		if (operation.type === constant.variable) {
 			variableDatatype[operation.name] = operation.datatype;
 		};
-		if (operation.type === constant.binaryExpression) {
-			if (["+", "-", "*", "/"].indexOf(operation.operator) > -1) {
-				if (variableDatatype[operation.assignee] !== "number" || variableDatatype[operation.left] !== "number" || variableDatatype[operation.right] !== "number") {
-					check = false;
-				}
-			} else if ([">", "<", "=>", "=<"].indexOf(operation.operator) > -1) {
+		if (operation.type === constant.comparisionExpression) {
+			if ([">", "<", "=>", "=<"].indexOf(operation.operator) > -1) {
 				if (variableDatatype[operation.assignee] !== "boolean" || variableDatatype[operation.left] !== "number" || variableDatatype[operation.right] !== "number") {
 					check = false;
 				}
-			} else if (["&", "|"].indexOf(operation.operator) > -1) {
+			}
+		}
+	});
+	return check;
+};
+exports.datatypeForComparisionExpressionCheck = datatypeForComparisionExpressionCheck;
+
+
+var datatypeForBooleanExpressionCheck = function (operations) {
+	var check = true;
+	var variableDatatype = {};
+	operations.forEach(function (operation) {
+		if (operation.type === constant.variable) {
+			variableDatatype[operation.name] = operation.datatype;
+		};
+		if (operation.type === constant.booleanExpression) {
+			if (["&", "|"].indexOf(operation.operator) > -1) {
 				if (variableDatatype[operation.assignee] !== "boolean" || variableDatatype[operation.left] !== "boolean" || variableDatatype[operation.right] !== "boolean") {
 					check = false;
 				}
@@ -125,10 +156,7 @@ var datatypeForBinaryExpressionCheck = function (operations) {
 	});
 	return check;
 };
-exports.datatypeForBinaryExpressionCheck = datatypeForBinaryExpressionCheck;
-
-
-
+exports.datatypeForBooleanExpressionCheck = datatypeForBooleanExpressionCheck;
 
 exports.validOperations = function (operations) {
 	var check = true;
@@ -137,6 +165,8 @@ exports.validOperations = function (operations) {
 	check = check && inputAndVariableNameUniqueCheck(operations);
 	check = check && allUsedVariablesDeclaredCheck(operations);
 	check = check && allDatatypesExistCheck(operations);
-	check = check && datatypeForBinaryExpressionCheck(operations);
+	check = check && datatypeForNumberExpressionCheck(operations);
+	check = check && datatypeForComparisionExpressionCheck(operations);
+	check = check && datatypeForBooleanExpressionCheck(operations);
 	return check;
 };

@@ -48,24 +48,33 @@ describe('parser', function () {
 			assert.deepStrictEqual(parser.parse("a=false;"), [{ type: constant.booleanAssignment, assignee: "a", literal: "false" }]);
 			assert.deepStrictEqual(parser.parse("a = true; \n b = false;"), [{ type: constant.booleanAssignment, assignee: "a", literal: "true" }, { type: constant.booleanAssignment, assignee: "b", literal: "false" }]);
 		});
-		it('binary expressions should be parsed', function () {
-			assert.deepStrictEqual(parser.parse("a = a + a;"), [{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "+", right: "a" }]);
-			assert.deepStrictEqual(parser.parse("a = b - c;"), [{ type: constant.binaryExpression, assignee: "a", left: "b", operator: "-", right: "c" }]);
-			assert.deepStrictEqual(parser.parse("a = d * e;"), [{ type: constant.binaryExpression, assignee: "a", left: "d", operator: "*", right: "e" }]);
-            assert.deepStrictEqual(parser.parse("a = f / g;"), [{ type: constant.binaryExpression, assignee: "a", left: "f", operator: "/", right: "g" }]);
-            assert.deepStrictEqual(parser.parse("a= a + a;"), [{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "+", right: "a" }]);
-            assert.deepStrictEqual(parser.parse("a =b - c;"), [{ type: constant.binaryExpression, assignee: "a", left: "b", operator: "-", right: "c" }]);
-            assert.deepStrictEqual(parser.parse("a = d* e;"), [{ type: constant.binaryExpression, assignee: "a", left: "d", operator: "*", right: "e" }]);
-            assert.deepStrictEqual(parser.parse("a = f /g;"), [{ type: constant.binaryExpression, assignee: "a", left: "f", operator: "/", right: "g" }]);
-            assert.deepStrictEqual(parser.parse("a= a < a;"), [{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "<", right: "a" }]);
-            assert.deepStrictEqual(parser.parse("a =b > c;"), [{ type: constant.binaryExpression, assignee: "a", left: "b", operator: ">", right: "c" }]);
-            assert.deepStrictEqual(parser.parse("a = d& e;"), [{ type: constant.binaryExpression, assignee: "a", left: "d", operator: "&", right: "e" }]);
-            assert.deepStrictEqual(parser.parse("a = f |g;"), [{ type: constant.binaryExpression, assignee: "a", left: "f", operator: "|", right: "g" }]);
-            assert.deepStrictEqual(parser.parse("a = d => e;"), [{ type: constant.binaryExpression, assignee: "a", left: "d", operator: "=>", right: "e" }]);
-            assert.deepStrictEqual(parser.parse("a = f =< g;"), [{ type: constant.binaryExpression, assignee: "a", left: "f", operator: "=<", right: "g" }]);
-			assert.deepStrictEqual(parser.parse("a=a+a;"), [{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "+", right: "a" }]);
-			assert.deepStrictEqual(parser.parse("a = a / a; a = a * a;"), [{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "/", right: "a" }, { type: constant.binaryExpression, assignee: "a", left: "a", operator: "*", right: "a" }]);
+		it('number expressions should be parsed', function () {
+			assert.deepStrictEqual(parser.parse("a = a + a;"), [{ type: constant.numberExpression, assignee: "a", left: "a", operator: "+", right: "a" }]);
+			assert.deepStrictEqual(parser.parse("a = b - c;"), [{ type: constant.numberExpression, assignee: "a", left: "b", operator: "-", right: "c" }]);
+			assert.deepStrictEqual(parser.parse("a = d * e;"), [{ type: constant.numberExpression, assignee: "a", left: "d", operator: "*", right: "e" }]);
+			assert.deepStrictEqual(parser.parse("a = f / g;"), [{ type: constant.numberExpression, assignee: "a", left: "f", operator: "/", right: "g" }]);
+			assert.deepStrictEqual(parser.parse("a= a + a;"), [{ type: constant.numberExpression, assignee: "a", left: "a", operator: "+", right: "a" }]);
+			assert.deepStrictEqual(parser.parse("a =b - c;"), [{ type: constant.numberExpression, assignee: "a", left: "b", operator: "-", right: "c" }]);
+			assert.deepStrictEqual(parser.parse("a = d* e;"), [{ type: constant.numberExpression, assignee: "a", left: "d", operator: "*", right: "e" }]);
+			assert.deepStrictEqual(parser.parse("a = f /g;"), [{ type: constant.numberExpression, assignee: "a", left: "f", operator: "/", right: "g" }]);
+
+			assert.deepStrictEqual(parser.parse("a = a / a; a = a * a;"), [{ type: constant.numberExpression, assignee: "a", left: "a", operator: "/", right: "a" }, { type: constant.numberExpression, assignee: "a", left: "a", operator: "*", right: "a" }]);
+				assert.deepStrictEqual(parser.parse("a=a+a;"), [{ type: constant.numberExpression, assignee: "a", left: "a", operator: "+", right: "a" }]);
 			assert.throws(function () { parser.parse("a = a \ a;"); });
+		});
+
+		it('boolean expressions should be parsed', function () {
+			assert.deepStrictEqual(parser.parse("a = d& e;"), [{ type: constant.booleanExpression, assignee: "a", left: "d", operator: "&", right: "e" }]);
+			assert.deepStrictEqual(parser.parse("a = f |g;"), [{ type: constant.booleanExpression, assignee: "a", left: "f", operator: "|", right: "g" }]);
+
+		});
+
+		it('comparision expressions should be parsed', function () {
+			assert.deepStrictEqual(parser.parse("a= a < a;"), [{ type: constant.comparisionExpression, assignee: "a", left: "a", operator: "<", right: "a" }]);
+			assert.deepStrictEqual(parser.parse("a =b > c;"), [{ type: constant.comparisionExpression, assignee: "a", left: "b", operator: ">", right: "c" }]);
+			assert.deepStrictEqual(parser.parse("a = d => e;"), [{ type: constant.comparisionExpression, assignee: "a", left: "d", operator: "=>", right: "e" }]);
+			assert.deepStrictEqual(parser.parse("a = f =< g;"), [{ type: constant.comparisionExpression, assignee: "a", left: "f", operator: "=<", right: "g" }]);
+
 		});
 
 

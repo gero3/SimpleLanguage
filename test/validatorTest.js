@@ -150,40 +150,64 @@ describe('validator', function () {
 	});
 
 
-	describe('#datatypeForBinaryExpressionCheck()', function () {
+	describe('#datatypeForNumberExpressionCheck()', function () {
 		this.timeout(1000);
-		it('datatypeForBinaryExpressionCheck function should be available.', function () {
-			assert.equal(typeof validator.datatypeForBinaryExpressionCheck === "function", true);
+		it('datatypeForNumberExpressionCheck function should be available.', function () {
+			assert.equal(typeof validator.datatypeForNumberExpressionCheck === "function", true);
 		});
-		it('datatypeForBinaryExpressionCheck should checck if all if all variables used are declared before using.', function () {
-			assert.equal(validator.datatypeForBinaryExpressionCheck([]), true);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("input number a;")), true);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("number a;")), true);
+		it('datatypeForNumberExpressionCheck should check if all if all variables used are declared before using.', function () {
+			assert.equal(validator.datatypeForNumberExpressionCheck([]), true);
+			assert.equal(validator.datatypeForNumberExpressionCheck(parser.parse("input number a;")), true);
+			assert.equal(validator.datatypeForNumberExpressionCheck(parser.parse("number a;")), true);
 
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("number a;number b;number c;a = b + c;")), true);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("number a;number b;number c;a = b - c;")), true);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("number a;number b;number c;a = b * c;")), true);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("number a;number b;number c;a = b / c;")), true);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;number b;number c;a = b > c;")), true);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;number b;number c;a = b < c;")), true);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;number b;number c;a = b => c;")), true);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;number b;number c;a = b =< c;")), true);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;boolean b;boolean c;a = b & c;")), true);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;boolean b;boolean c;a = b | c;")), true);
+			assert.equal(validator.datatypeForNumberExpressionCheck(parser.parse("number a;number b;number c;a = b + c;")), true);
+			assert.equal(validator.datatypeForNumberExpressionCheck(parser.parse("number a;number b;number c;a = b - c;")), true);
+			assert.equal(validator.datatypeForNumberExpressionCheck(parser.parse("number a;number b;number c;a = b * c;")), true);
+			assert.equal(validator.datatypeForNumberExpressionCheck(parser.parse("number a;number b;number c;a = b / c;")), true);
 
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;number b;number c;a = b + c;")), false);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("number a;boolean b;number c;a = b - c;")), false);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("number a;number b;boolean c;a = b * c;")), false);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;boolean b;boolean c;a = b / c;")), false);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("number a;number b;number c;a = b > c;")), false);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;boolean b;number c;a = b < c;")), false);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;number b;boolean c;a = b => c;")), false);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;boolean b;boolean c;a = b =< c;")), false);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;number b;boolean c;a = b & c;")), false);
-			assert.equal(validator.datatypeForBinaryExpressionCheck(parser.parse("boolean a;boolean b;number c;a = b | c;")), false);
+			assert.equal(validator.datatypeForNumberExpressionCheck(parser.parse("boolean a;number b;number c;a = b + c;")), false);
+			assert.equal(validator.datatypeForNumberExpressionCheck(parser.parse("number a;boolean b;number c;a = b - c;")), false);
+			assert.equal(validator.datatypeForNumberExpressionCheck(parser.parse("number a;number b;boolean c;a = b * c;")), false);
+			assert.equal(validator.datatypeForNumberExpressionCheck(parser.parse("boolean a;boolean b;boolean c;a = b / c;")), false);
 
 
-			assert.equal(validator.datatypeForBinaryExpressionCheck([{ type: constant.binaryExpression, assignee: "a", left: "b", operator: "\\", right:"c" }]), false);
+
+
+		});
+	});
+
+
+	describe('#datatypeForComparisionExpressionCheck()', function () {
+		this.timeout(1000);
+		it('datatypeForComparisionExpressionCheck function should be available.', function () {
+			assert.equal(typeof validator.datatypeForComparisionExpressionCheck === "function", true);
+		});
+		it('datatypeForComparisionExpressionCheck should check if all if all variables used are declared before using.', function () {
+			assert.equal(validator.datatypeForComparisionExpressionCheck(parser.parse("boolean a;number b;number c;a = b > c;")), true);
+			assert.equal(validator.datatypeForComparisionExpressionCheck(parser.parse("boolean a;number b;number c;a = b < c;")), true);
+			assert.equal(validator.datatypeForComparisionExpressionCheck(parser.parse("boolean a;number b;number c;a = b => c;")), true);
+			assert.equal(validator.datatypeForComparisionExpressionCheck(parser.parse("boolean a;number b;number c;a = b =< c;")), true);
+			assert.equal(validator.datatypeForComparisionExpressionCheck(parser.parse("number a;number b;number c;a = b > c;")), false);
+			assert.equal(validator.datatypeForComparisionExpressionCheck(parser.parse("boolean a;boolean b;number c;a = b < c;")), false);
+			assert.equal(validator.datatypeForComparisionExpressionCheck(parser.parse("boolean a;number b;boolean c;a = b => c;")), false);
+			assert.equal(validator.datatypeForComparisionExpressionCheck(parser.parse("boolean a;boolean b;boolean c;a = b =< c;")), false);
+		});
+	});
+
+	describe('#datatypeForBooleanExpressionCheck()', function () {
+		this.timeout(1000);
+		it('datatypeForBooleanExpressionCheck function should be available.', function () {
+			assert.equal(typeof validator.datatypeForBooleanExpressionCheck === "function", true);
+		});
+		it('datatypeForBooleanExpressionCheck should check if all if all variables used are declared before using.', function () {
+
+			assert.equal(validator.datatypeForBooleanExpressionCheck(parser.parse("boolean a;boolean b;boolean c;a = b & c;")), true);
+			assert.equal(validator.datatypeForBooleanExpressionCheck(parser.parse("boolean a;boolean b;boolean c;a = b | c;")), true);
+			assert.equal(validator.datatypeForBooleanExpressionCheck(parser.parse("boolean a;number b;boolean c;a = b & c;")), false);
+			assert.equal(validator.datatypeForBooleanExpressionCheck(parser.parse("boolean a;boolean b;number c;a = b | c;")), false);
+
+
+			assert.equal(validator.datatypeForBooleanExpressionCheck([{ type: constant.booleanExpression, assignee: "a", left: "b", operator: "\\", right: "c" }]), false);
 		});
 	});
 
