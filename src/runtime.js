@@ -46,17 +46,53 @@ function executeBooleanAssignmentOperation(operation, inputs, variables, outputs
 }
 
 function executeBinaryExpressionOperation(operation, inputs, variables, outputs) {
-	if (operation.operator === "+") {
-		variables[operation.assignee].value = variables[operation.left].value.add(variables[operation.right].value);
-	} else if (operation.operator === "-") {
-		variables[operation.assignee].value = variables[operation.left].value.minus(variables[operation.right].value);
-	} else if (operation.operator === "*") {
-		variables[operation.assignee].value = variables[operation.left].value.multiply(variables[operation.right].value);
-	} else if (operation.operator === "/") {
-		variables[operation.assignee].value = variables[operation.left].value.divide(variables[operation.right].value);
+
+	var assignee = variables[operation.assignee];
+	var left = variables[operation.left];
+	var right = variables[operation.right];
+
+	if (assignee.datatype === "number" && left.datatype === "number" && right.datatype === "number") {
+
+		if (operation.operator === "+") {
+			assignee.value = left.value.add(right.value);
+		} else if (operation.operator === "-") {
+			assignee.value = left.value.minus(right.value);
+		} else if (operation.operator === "*") {
+			assignee.value = left.value.multiply(right.value);
+		} else if (operation.operator === "/") {
+			assignee.value = left.value.divide(right.value);
+		} else {
+			throw new Error("binaryExpression cannot not be executed for operator " + operation.operator + ".");
+		}
+
+	} else if (assignee.datatype === "boolean" && left.datatype === "boolean" && right.datatype === "boolean") {
+
+		if (operation.operator === "&") {
+			assignee.value = left.value && right.value;
+		} else if (operation.operator === "|") {
+			assignee.value = left.value || right.value;
+		} else {
+			throw new Error("binaryExpression cannot not be executed for operator " + operation.operator + ".");
+		}
+	} else if (assignee.datatype === "boolean" && left.datatype === "number" && right.datatype === "number") {
+
+		if (operation.operator === "<") {
+			assignee.value = left.value.lesser(right.value);
+		} else if (operation.operator === ">") {
+			assignee.value = left.value.greater(right.value);
+		} else if (operation.operator === "=<") {
+			assignee.value = left.value.lesserOrEquals(right.value);
+		} else if (operation.operator === "=>") {
+			assignee.value = left.value.greaterOrEquals(right.value);
+		} else {
+			throw new Error("binaryExpression cannot not be executed for operator " + operation.operator + ".");
+		}
 	} else {
-		throw new Error("binaryExpression cannot not be executed for operator " + operation.operator + ".");
+			throw new Error("binaryExpression cannot not be executed for oepration " + operation.assignee + " = " + operation.left + " " + operation.operator + " " + operation.right + ".");
 	}
+
+
+
 }
 
 var constant = require("./constant");
