@@ -41,10 +41,10 @@ describe('runtime', function () {
 		});
 		it('ouput errors when invalid script', function () {
 			assert.throws(function () { runtime.executeOperations([{ type: "blabla", assignee: "a", left: "a", operator: "+", right: "a" }]); });
-			assert.throws(function () { runtime.executeOperations([{ type: constant.variable, datatype: "number", name: "a" },{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "blabla", right: "a" }]); });
-			assert.throws(function () { runtime.executeOperations([{ type: constant.variable, datatype: "boolean", name: "a" },{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "blabla", right: "a" }]); });
-			assert.throws(function () { runtime.executeOperations([{ type: constant.variable, datatype: "boolean", name: "a" },{ type: constant.variable, datatype: "number", name: "b" },{ type: constant.binaryExpression, assignee: "a", left: "b", operator: "blabla", right: "b" }]); });
-			assert.throws(function () { runtime.executeOperations([{ type: constant.variable, datatype: "boolean", name: "a" },{ type: constant.variable, datatype: "number", name: "b" },{ type: constant.binaryExpression, assignee: "a", left: "a", operator: "blabla", right: "b" }]); });
+			assert.throws(function () { runtime.executeOperations([{ type: constant.variable, datatype: "number", name: "a" },{ type: constant.numberExpression, assignee: "a", left: "a", operator: "blabla", right: "a" }]); });
+			assert.throws(function () { runtime.executeOperations([{ type: constant.variable, datatype: "boolean", name: "a" },{ type: constant.booleanExpression, assignee: "a", left: "a", operator: "blabla", right: "a" }]); });
+			assert.throws(function () { runtime.executeOperations([{ type: constant.variable, datatype: "boolean", name: "a" },{ type: constant.variable, datatype: "number", name: "b" },{ type: constant.comparisionExpression, assignee: "a", left: "b", operator: "blabla", right: "b" }]); });
+			assert.throws(function () { runtime.executeOperations([{ type: constant.variable, datatype: "boolean", name: "a" },{ type: constant.variable, datatype: "number", name: "b" },{ type: constant.comparisionExpression, assignee: "a", left: "a", operator: "blabla", right: "b" }]); });
 			assert.throws(function () { runtime.executeOperations([{ type: constant.input, datatype: "blabla", name: "a" }]); });
 			assert.throws(function () { runtime.executeOperations([{ type: constant.variable, datatype: "blabla", name: "a" }]); });
 			assert.throws(function () { runtime.executeOperations([{ type: constant.booleanAssignment, assignee: "a", literal: "fasle" }]); });

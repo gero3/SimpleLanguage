@@ -63,7 +63,7 @@ var allUsedVariablesDeclaredCheck = function (operations) {
 				check = false;
 			}
 		};
-		if (operation.type === constant.numberExpression ||operation.type === constant.booleanExpression ||operation.type === constant.comparisonExpression) {
+		if (operation.type === constant.numberExpression || operation.type === constant.booleanExpression || operation.type === constant.comparisonExpression) {
 			if (!(variableNames[operation.assignee] && variableNames[operation.left] && variableNames[operation.right])) {
 				check = false;
 			}
@@ -105,10 +105,8 @@ var datatypeForNumberExpressionCheck = function (operations) {
 			variableDatatype[operation.name] = operation.datatype;
 		}
 		if (operation.type === constant.numberExpression) {
-			if (["+", "-", "*", "/"].indexOf(operation.operator) > -1) {
-				if (variableDatatype[operation.assignee] !== "number" || variableDatatype[operation.left] !== "number" || variableDatatype[operation.right] !== "number") {
-					check = false;
-				}
+			if (variableDatatype[operation.assignee] !== "number" || variableDatatype[operation.left] !== "number" || variableDatatype[operation.right] !== "number") {
+				check = false;
 			}
 		}
 	});
@@ -124,10 +122,8 @@ var datatypeForComparisionExpressionCheck = function (operations) {
 			variableDatatype[operation.name] = operation.datatype;
 		};
 		if (operation.type === constant.comparisionExpression) {
-			if ([">", "<", "=>", "=<"].indexOf(operation.operator) > -1) {
-				if (variableDatatype[operation.assignee] !== "boolean" || variableDatatype[operation.left] !== "number" || variableDatatype[operation.right] !== "number") {
-					check = false;
-				}
+			if (variableDatatype[operation.assignee] !== "boolean" || variableDatatype[operation.left] !== "number" || variableDatatype[operation.right] !== "number") {
+				check = false;
 			}
 		}
 	});
@@ -144,11 +140,7 @@ var datatypeForBooleanExpressionCheck = function (operations) {
 			variableDatatype[operation.name] = operation.datatype;
 		};
 		if (operation.type === constant.booleanExpression) {
-			if (["&", "|"].indexOf(operation.operator) > -1) {
-				if (variableDatatype[operation.assignee] !== "boolean" || variableDatatype[operation.left] !== "boolean" || variableDatatype[operation.right] !== "boolean") {
-					check = false;
-				}
-			} else {
+			if (variableDatatype[operation.assignee] !== "boolean" || variableDatatype[operation.left] !== "boolean" || variableDatatype[operation.right] !== "boolean") {
 				check = false;
 			}
 

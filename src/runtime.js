@@ -51,22 +51,16 @@ function executeNumberExpressionOperation(operation, inputs, variables, outputs)
 	var left = variables[operation.left];
 	var right = variables[operation.right];
 
-	if (assignee.datatype === "number" && left.datatype === "number" && right.datatype === "number") {
-
-		if (operation.operator === "+") {
-			assignee.value = left.value.add(right.value);
-		} else if (operation.operator === "-") {
-			assignee.value = left.value.minus(right.value);
-		} else if (operation.operator === "*") {
-			assignee.value = left.value.multiply(right.value);
-		} else if (operation.operator === "/") {
-			assignee.value = left.value.divide(right.value);
-		} else {
-			throw new Error("binaryExpression cannot not be executed for operator " + operation.operator + ".");
-		}
-
+	if (operation.operator === "+") {
+		assignee.value = left.value.add(right.value);
+	} else if (operation.operator === "-") {
+		assignee.value = left.value.minus(right.value);
+	} else if (operation.operator === "*") {
+		assignee.value = left.value.multiply(right.value);
+	} else if (operation.operator === "/") {
+		assignee.value = left.value.divide(right.value);
 	} else {
-		throw new Error("binaryExpression cannot not be executed for operation " + operation.assignee + " = " + operation.left + " " + operation.operator + " " + operation.right + ".");
+		throw new Error("NumberExpression cannot not be executed for operator " + operation.operator + ".");
 	}
 }
 function executeBooleanExpressionOperation(operation, inputs, variables, outputs) {
@@ -75,17 +69,12 @@ function executeBooleanExpressionOperation(operation, inputs, variables, outputs
 	var left = variables[operation.left];
 	var right = variables[operation.right];
 
-	if (assignee.datatype === "boolean" && left.datatype === "boolean" && right.datatype === "boolean") {
-
-		if (operation.operator === "&") {
-			assignee.value = left.value && right.value;
-		} else if (operation.operator === "|") {
-			assignee.value = left.value || right.value;
-		} else {
-			throw new Error("binaryExpression cannot not be executed for operator " + operation.operator + ".");
-		}
+	if (operation.operator === "&") {
+		assignee.value = left.value && right.value;
+	} else if (operation.operator === "|") {
+		assignee.value = left.value || right.value;
 	} else {
-		throw new Error("binaryExpression cannot not be executed for operation " + operation.assignee + " = " + operation.left + " " + operation.operator + " " + operation.right + ".");
+		throw new Error("BooleanExpression cannot not be executed for operator " + operation.operator + ".");
 	}
 }
 function executeComparisionExpressionOperation(operation, inputs, variables, outputs) {
@@ -94,24 +83,17 @@ function executeComparisionExpressionOperation(operation, inputs, variables, out
 	var left = variables[operation.left];
 	var right = variables[operation.right];
 
-	if (assignee.datatype === "boolean" && left.datatype === "number" && right.datatype === "number") {
-
-		if (operation.operator === "<") {
-			assignee.value = left.value.lesser(right.value);
-		} else if (operation.operator === ">") {
-			assignee.value = left.value.greater(right.value);
-		} else if (operation.operator === "=<") {
-			assignee.value = left.value.lesserOrEquals(right.value);
-		} else if (operation.operator === "=>") {
-			assignee.value = left.value.greaterOrEquals(right.value);
-		} else {
-			throw new Error("binaryExpression cannot not be executed for operator " + operation.operator + ".");
-		}
+	if (operation.operator === "<") {
+		assignee.value = left.value.lesser(right.value);
+	} else if (operation.operator === ">") {
+		assignee.value = left.value.greater(right.value);
+	} else if (operation.operator === "=<") {
+		assignee.value = left.value.lesserOrEquals(right.value);
+	} else if (operation.operator === "=>") {
+		assignee.value = left.value.greaterOrEquals(right.value);
 	} else {
-		throw new Error("binaryExpression cannot not be executed for operation " + operation.assignee + " = " + operation.left + " " + operation.operator + " " + operation.right + ".");
+		throw new Error("ComparisionExpression cannot not be executed for operator " + operation.operator + ".");
 	}
-
-
 
 }
 

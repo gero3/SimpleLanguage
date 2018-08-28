@@ -16,7 +16,11 @@ exports.generate = function (ast) {
 			code = code + operation.assignee + " = " + operation.literal + ";\n";
 		} else if (operation.type === constant.booleanAssignment) {
 			code = code + operation.assignee + " = " + operation.literal + ";\n";
-		} else if (operation.type === constant.binaryExpression) {
+		} else if (operation.type === constant.numberExpression) {
+			code = code + operation.assignee + " = " + operation.left + " " + operation.operator + " " + operation.right + ";\n";
+		} else if (operation.type === constant.booleanExpression) {
+			code = code + operation.assignee + " = " + operation.left + " " + operation.operator + " " + operation.right + ";\n";
+		} else if (operation.type === constant.comparisionExpression) {
 			code = code + operation.assignee + " = " + operation.left + " " + operation.operator + " " + operation.right + ";\n";
 		} else {
 			throw new Error("Code cannot not be generated for operation type " + operation.type + ".");
